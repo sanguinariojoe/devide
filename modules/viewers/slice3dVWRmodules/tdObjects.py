@@ -117,7 +117,10 @@ class tdObjects(s3dcGridMixin):
                 elif tdObject.GetClassName() == 'vtkPolyData':
                     mapper = vtk.vtkPolyDataMapper()
                     mapper.ImmediateModeRenderingOn()
-                    mapper.SetInputData(tdObject)
+                    if vtk.VTK_MAJOR_VERSION <= 5:
+                        mapper.SetInput(tdObject)
+                    else:
+                        mapper.SetInputData(tdObject)
                     actor = vtk.vtkActor()
                     actor.SetMapper(mapper)
 
@@ -259,7 +262,10 @@ class tdObjects(s3dcGridMixin):
             # record the new object ###################################
             objectDict['tdObject'] = newObject
             mapper = objectDict['vtkActor'].GetMapper()
-            mapper.SetInputData(newObject)
+            if vtk.VTK_MAJOR_VERSION <= 5:
+                mapper.SetInput(newObject)
+            else:
+                mapper.SetInputData(newObject)
             self._tdObjectsDict[newObject] = objectDict
 
             # set the new scalar range ################################

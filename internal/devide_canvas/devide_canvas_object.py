@@ -577,7 +577,10 @@ class DeVIDECanvasGlyph(DeVIDECanvasObject):
         m = vtk.vtkPolyDataMapper()
         # the BeveledEdgeBlock() polydata is created during construction, so
         # we use SetInputData() here.
-        m.SetInputData(self._beb.polydata)
+        if vtk.VTK_MAJOR_VERSION <= 5:
+            m.SetInput(self._beb.polydata)
+        else:
+            m.SetInputData(self._beb.polydata)
         self._rbsa.SetMapper(m)
 
         # we need Phong shading for the gradients
@@ -600,7 +603,10 @@ class DeVIDECanvasGlyph(DeVIDECanvasObject):
 
         m = vtk.vtkPolyDataMapper()
         # SelectionBlock.polydata is kept up to date explicitly
-        m.SetInputData(self._selection_block.polydata)
+        if vtk.VTK_MAJOR_VERSION <= 5:
+            m.SetInput(self._selection_block.polydata)
+        else:
+            m.SetInputData(self._selection_block.polydata)
         a = vtk.vtkActor()
         a.SetMapper(m)
         a.GetProperty().SetOpacity(0.3)
@@ -611,7 +617,10 @@ class DeVIDECanvasGlyph(DeVIDECanvasObject):
         # GLYPH BLOCKED OVERLAY #######################################
         m = vtk.vtkPolyDataMapper()
         # FilledBlock.polydata is kept up to date explicitly
-        m.SetInputData(self._blocked_block.polydata)
+        if vtk.VTK_MAJOR_VERSION <= 5:
+            m.SetInput(self._blocked_block.polydata)
+        else:
+            m.SetInputData(self._blocked_block.polydata)
         a = vtk.vtkActor()
         a.SetMapper(m)
         a.GetProperty().SetOpacity(0.3)

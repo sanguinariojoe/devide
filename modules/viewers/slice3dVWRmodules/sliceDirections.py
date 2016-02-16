@@ -209,7 +209,10 @@ class sliceDirections(s3dcGridMixin):
                 self._setSliceInteraction(sliceName, True)
 
                 # and initialise the output polydata
-                self.ipwAppendPolyData.AddInputData(newSD.primaryPolyData)
+                if vtk.VTK_MAJOR_VERSION <= 5:
+                    self.ipwAppendPolyData.AddInput(newSD.primaryPolyData)
+                else:
+                    self.ipwAppendPolyData.AddInputData(newSD.primaryPolyData)
 
                 return newSD
 
